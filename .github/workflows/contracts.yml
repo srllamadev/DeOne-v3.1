@@ -1,0 +1,32 @@
+name: Smart Contracts CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "contracts/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "contracts/**"
+
+jobs:
+  fmt-and-test:
+    name: Format, Compile & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - name: Check formatting
+        run: cargo fmt --all --check
+        working-directory: contracts
+      - name: Build contracts
+        run: cargo build --target wasm32-unknown-unknown --release
+        working-directory: contracts
+      - name: Run tests
+        run: cargo test
+        working-directory: contracts

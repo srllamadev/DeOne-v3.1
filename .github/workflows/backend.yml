@@ -1,0 +1,49 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+
+jobs:
+  lint-test-build:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: sgw_dev
+          POSTGRES_PASSWORD: sgw_dev_password
+          POSTGRES_DB: stellar_wallet
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://sgw_dev:sgw_dev_password@localhost:5432/stellar_wallet
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @stellar-game/api... lint
+      - run: pnpm --filter @stellar-game/api db:generate
+      - run: pnpm --filter @stellar-game/api test
+      - run: pnpm --filter @stellar-game/api build
