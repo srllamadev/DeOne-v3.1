@@ -1,10 +1,10 @@
 # Stellar Game Wallet
 
-Billetera digital gamificada construida sobre la blockchain **Stellar**, con una interfaz visual inspirada en videojuegos de estrategia. Combina funcionalidades de wallet tradicional (saldos, envios, recepcion de activos, historial) con mecanicas de progresion, recompensas, misiones y cofres.
+Billetera digital gamificada construida sobre la blockchain **Stellar**, Combina funcionalidades de wallet tradicional (saldos, envios, recepcion de activos, historial) con mecanicas de progresion, recompensas, misiones y cofres.
 
 ## Objetivo
 
-Ofrecer una experiencia de gestion de activos digitales accesible y entretenida, donde cada interaccion con la blockchain se presenta como parte de una experiencia de juego con progresion visual, sin custodiar fondos del usuario.
+Ofrecer una experiencia de gestion de activos digitales accesible y entretenida, donde cada interaccion con la blockchain se presenta como parte de una experiencia visual, sin custodiar fondos del usuario.
 
 ## Tecnologias
 
