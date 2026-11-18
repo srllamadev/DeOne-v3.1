@@ -3,30 +3,69 @@ import { z } from "zod";
 export const StellarAddressSchema = z
   .string()
   .length(56)
-  .regex(/^G[A-Z2-7]{55}$/, "Dirección Stellar inválida");
+  .regex(/^G[A-Z2-7]{55}$/, "Direccion Stellar invalida");
 
 export type StellarAddress = z.infer<typeof StellarAddressSchema>;
 
+export const RegisterInputSchema = z.object({
+  email: z.string().email(),
+  username: z.string().min(3).max(30),
+  password: z.string().min(8).max(100),
+});
+
+export const LoginInputSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+export const AuthResponseSchema = z.object({
+  status: z.literal("ok"),
+  user: z.object({
+    id: z.string().uuid(),
+    email: z.string().email(),
+    username: z.string(),
+    createdAt: z.coerce.date(),
+  }),
+  token: z.string(),
+});
+
+export type AuthResponse = z.infer<typeof AuthResponseSchema>;
+
 export const UserProfileSchema = z.object({
   id: z.string().uuid(),
-  username: z.string().min(3).max(30),
-  stellarAddress: StellarAddressSchema.nullable(),
-  level: z.number().int().min(0).default(1),
-  experience: z.number().int().min(0).default(0),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  email: z.string().email(),
+  username: z.string(),
+  createdAt: z.coerce.date(),
+  profile: z.object({
+    level: z.number().int().min(0),
+    experience: z.number().int().min(0),
+  }).nullable(),
+  wallets: z.array(z.object({
+    id: z.string().uuid(),
+    stellarAddress: z.string(),
+    label: z.string().nullable(),
+    isDefault: z.boolean(),
+  })).optional(),
 });
 
 export type UserProfile = z.infer<typeof UserProfileSchema>;
 
+export const WalletBalanceSchema = z.object({
+  assetType: z.string(),
+  assetCode: z.string().optional(),
+  assetIssuer: z.string().optional(),
+  balance: z.string(),
+});
+
+export type WalletBalance = z.infer<typeof WalletBalanceSchema>;
+
 export const TransactionSchema = z.object({
+  id: z.string(),
   hash: z.string(),
-  from: StellarAddressSchema,
-  to: StellarAddressSchema,
-  amount: z.string(),
-  asset: z.string().default("XLM"),
+  type: z.string(),
+  createdAt: z.string(),
+  sourceAccount: z.string(),
   memo: z.string().optional(),
-  createdAt: z.date(),
 });
 
 export type Transaction = z.infer<typeof TransactionSchema>;

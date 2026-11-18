@@ -23,7 +23,7 @@
     "db:down": "docker compose -f infra/docker-compose.yml down",
     "db:migrate": "pnpm --filter @stellar-game/api db:migrate",
     "db:generate": "pnpm --filter @stellar-game/api db:generate",
-    "contracts:build": "cd contracts && cargo build --target wasm32-unknown-unknown --release",
+    "contracts:build": "cd contracts && stellar contract build",
     "contracts:test": "cd contracts && cargo test",
     "contracts:fmt": "cd contracts && cargo fmt --all",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md,yml,yaml}\"",
