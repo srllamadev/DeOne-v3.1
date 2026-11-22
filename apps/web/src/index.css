@@ -20,3 +20,40 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .wallet-mascot-enter {
+    animation: wallet-mascot-enter 900ms ease-out both;
+  }
+
+  .wallet-mascot-celebrate {
+    animation: wallet-mascot-celebrate 720ms ease-in-out both;
+  }
+}
+
+@keyframes wallet-mascot-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wallet-mascot-celebrate {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+  35% {
+    transform: translateY(-12px) rotate(-4deg) scale(1.04);
+  }
+  70% {
+    transform: translateY(-3px) rotate(3deg);
+  }
+}

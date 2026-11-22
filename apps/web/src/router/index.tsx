@@ -4,6 +4,7 @@ import { LoginPage } from "@/components/LoginPage";
 import { RegisterPage } from "@/components/RegisterPage";
 import { DashboardPage } from "@/components/DashboardPage";
 import { WalletDetailPage } from "@/components/WalletDetailPage";
+import { WalletSendPage } from "@/components/WalletSendPage";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -11,4 +12,5 @@ export const router = createBrowserRouter([
   { path: "/register", element: <RegisterPage /> },
   { path: "/dashboard", element: <DashboardPage /> },
   { path: "/wallets/:id", element: <WalletDetailPage /> },
+  { path: "/wallets/:id/send", element: <WalletSendPage /> },
 ]);

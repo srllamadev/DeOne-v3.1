@@ -1,14 +1,27 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Copy, ExternalLink, Coins, ArrowDownUp } from "lucide-react";
-import { getBalances, getTransactions } from "@/wallet/services/wallet.service";
+import { ArrowLeft, Copy, ExternalLink, Coins, ArrowDownUp, Send } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import { WalletMascotTip } from "@/components/WalletMascotTip";
+import { getBalances, getTransactions, getWallets } from "@/wallet/services/wallet.service";
 import { shortenAddress } from "@stellar-game/stellar";
 import { useState } from "react";
 
 export function WalletDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [copied, setCopied] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState<{
+    address: string;
+    message: string;
+  }>();
+  const [copyCount, setCopyCount] = useState(0);
+
+  const walletsQuery = useQuery({
+    queryKey: ["wallets"],
+    queryFn: getWallets,
+    enabled: !!id,
+  });
+  const address = walletsQuery.data?.data.find((wallet) => wallet.id === id)?.stellarAddress;
 
   const { data: balancesData, isLoading: loadingBalances } = useQuery({
     queryKey: ["balances", id],
@@ -25,12 +38,16 @@ export function WalletDetailPage() {
   const balances = balancesData?.data ?? [];
   const transactions = txData?.data ?? [];
 
-  function copyAddress() {
-    const wallet = balancesData?.data;
-    if (!wallet) return;
-    navigator.clipboard.writeText(id ?? "");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  async function copyAddress() {
+    if (!address) return;
+
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopyFeedback({ address, message: "Dirección copiada." });
+      setCopyCount((count) => count + 1);
+    } catch {
+      setCopyFeedback({ address, message: "Selecciona la dirección para copiarla manualmente." });
+    }
   }
 
   return (
@@ -44,19 +61,68 @@ export function WalletDetailPage() {
           Volver al dashboard
         </button>
 
-        <div className="rounded-xl border border-game-accent bg-game-secondary/50 p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-white">Detalle de Wallet</h1>
-            <button
-              onClick={copyAddress}
-              className="flex items-center gap-2 rounded-lg bg-game-accent px-3 py-1.5 text-sm text-gray-300 hover:text-white transition"
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-xl font-bold text-white">Detalle de billetera</h1>
+          {address && (
+            <Link
+              to="send"
+              className="inline-flex items-center gap-2 rounded-lg bg-game-highlight px-4 py-2 text-sm font-semibold text-white"
             >
-              <Copy className="h-4 w-4" />
-              {copied ? "Copiada!" : "Copiar direccion"}
-            </button>
-          </div>
-          <p className="font-mono text-sm text-game-gold break-all">{id}</p>
+              <Send className="h-4 w-4" aria-hidden="true" />
+              Enviar XLM
+            </Link>
+          )}
         </div>
+        <section className="mb-6 grid overflow-hidden rounded-2xl border border-emerald-600/40 bg-emerald-950/60 sm:grid-cols-[minmax(0,1fr)_14rem]">
+          <div className="min-w-0 p-5 sm:p-6">
+            <h2 className="text-lg font-semibold text-white">Recibir en Stellar</h2>
+            {address ? (
+              <>
+                <div className="mt-3">
+                  <WalletMascotTip
+                    message="Comparte tu dirección o deja que la otra persona escanee el QR para enviarte fondos."
+                    celebration={copyCount}
+                  />
+                </div>
+                <p className="my-4 select-all break-all rounded-lg bg-black/30 p-3 font-mono text-sm text-emerald-50">
+                  {address}
+                </p>
+                <button
+                  type="button"
+                  onClick={copyAddress}
+                  className="inline-flex items-center gap-2 rounded-lg bg-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+                >
+                  <Copy className="h-4 w-4" aria-hidden="true" />
+                  Copiar dirección
+                </button>
+                <p role="status" className="mt-2 text-sm text-emerald-100">
+                  {copyFeedback?.address === address && copyFeedback.message}
+                </p>
+              </>
+            ) : (
+              <p role="status" className="mt-2 text-sm text-emerald-100">
+                {walletsQuery.isLoading ? "Buscando dirección…" : "No se encontró la dirección de esta billetera."}
+              </p>
+            )}
+          </div>
+          {address && (
+            <div className="flex items-center justify-center px-5 pb-5 sm:pt-5">
+              <figure className="text-center">
+                <QRCodeSVG
+                  value={address}
+                  size={160}
+                  level="M"
+                  marginSize={4}
+                  title="Código QR de la dirección pública Stellar"
+                  className="mx-auto rounded-md"
+                />
+                <figcaption className="mt-2 text-xs text-emerald-100">
+                  Escanea para obtener la dirección
+                </figcaption>
+              </figure>
+            </div>
+          )}
+        </section>
 
         <section className="mb-6">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
