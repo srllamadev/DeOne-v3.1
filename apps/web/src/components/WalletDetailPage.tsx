@@ -51,40 +51,40 @@ export function WalletDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-game-primary to-game-secondary p-4">
+    <main className="deone-wallet min-h-screen p-4 sm:p-8">
       <div className="mx-auto max-w-4xl">
         <button
           onClick={() => navigate("/dashboard")}
-          className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition"
+          className="flex items-center gap-2 text-emerald-800 hover:text-emerald-950 mb-6 transition"
         >
           <ArrowLeft className="h-4 w-4" />
-          Volver al dashboard
+          Volver al inicio
         </button>
 
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-xl font-bold text-white">Detalle de billetera</h1>
+          <h1 className="text-xl font-bold text-emerald-950">Detalle de billetera</h1>
           {address && (
             <Link
               to="send"
-              className="inline-flex items-center gap-2 rounded-lg bg-game-highlight px-4 py-2 text-sm font-semibold text-white"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-200 px-4 py-2 text-sm font-semibold text-emerald-950"
             >
               <Send className="h-4 w-4" aria-hidden="true" />
               Enviar XLM
             </Link>
           )}
         </div>
-        <section className="mb-6 grid overflow-hidden rounded-2xl border border-emerald-600/40 bg-emerald-950/60 sm:grid-cols-[minmax(0,1fr)_14rem]">
+        <section className="mb-6 grid overflow-hidden rounded-2xl border border-emerald-200 bg-emerald-50 sm:grid-cols-[minmax(0,1fr)_14rem]">
           <div className="min-w-0 p-5 sm:p-6">
-            <h2 className="text-lg font-semibold text-white">Recibir en Stellar</h2>
+            <h2 className="text-lg font-semibold text-emerald-950">Recibir en Stellar</h2>
             {address ? (
               <>
                 <div className="mt-3">
                   <WalletMascotTip
                     message="Comparte tu dirección o deja que la otra persona escanee el QR para enviarte fondos."
-                    celebration={copyCount}
+                    celebration={copyCount} action="receive"
                   />
                 </div>
-                <p className="my-4 select-all break-all rounded-lg bg-black/30 p-3 font-mono text-sm text-emerald-50">
+                <p className="my-4 select-all break-all rounded-lg bg-emerald-100 p-3 font-mono text-sm text-emerald-950">
                   {address}
                 </p>
                 <button
@@ -95,12 +95,12 @@ export function WalletDetailPage() {
                   <Copy className="h-4 w-4" aria-hidden="true" />
                   Copiar dirección
                 </button>
-                <p role="status" className="mt-2 text-sm text-emerald-100">
+                <p role="status" className="mt-2 text-sm text-emerald-800">
                   {copyFeedback?.address === address && copyFeedback.message}
                 </p>
               </>
             ) : (
-              <p role="status" className="mt-2 text-sm text-emerald-100">
+              <p role="status" className="mt-2 text-sm text-emerald-800">
                 {walletsQuery.isLoading ? "Buscando dirección…" : "No se encontró la dirección de esta billetera."}
               </p>
             )}
@@ -116,7 +116,7 @@ export function WalletDetailPage() {
                   title="Código QR de la dirección pública Stellar"
                   className="mx-auto rounded-md"
                 />
-                <figcaption className="mt-2 text-xs text-emerald-100">
+                <figcaption className="mt-2 text-xs text-emerald-800">
                   Escanea para obtener la dirección
                 </figcaption>
               </figure>
@@ -125,15 +125,15 @@ export function WalletDetailPage() {
         </section>
 
         <section className="mb-6">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-            <Coins className="h-5 w-5 text-game-gold" />
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-emerald-950 mb-4">
+            <Coins className="h-5 w-5 text-emerald-700" />
             Saldos
           </h2>
 
           {loadingBalances ? (
-            <div className="text-center py-8 text-gray-400">Consultando red Stellar...</div>
+            <div className="text-center py-8 text-emerald-800">Consultando red Stellar...</div>
           ) : balances.length === 0 ? (
-            <div className="rounded-xl border border-game-accent bg-game-secondary/50 p-6 text-center text-gray-400">
+            <div className="rounded-xl border border-emerald-200 bg-white/80 p-6 text-center text-emerald-800">
               Sin saldos. Fondea tu wallet desde el dashboard (Testnet).
             </div>
           ) : (
@@ -141,10 +141,10 @@ export function WalletDetailPage() {
               {balances.map((b, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-game-accent bg-game-secondary/50 p-4"
+                  className="rounded-xl border border-emerald-200 bg-white/80 p-4"
                 >
-                  <p className="text-2xl font-bold text-white">{b.balance}</p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-2xl font-bold text-emerald-950">{b.balance}</p>
+                  <p className="text-sm text-emerald-800">
                     {b.assetCode ?? (b.assetType === "native" ? "XLM" : b.assetType)}
                   </p>
                 </div>
@@ -154,15 +154,15 @@ export function WalletDetailPage() {
         </section>
 
         <section>
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-            <ArrowDownUp className="h-5 w-5 text-game-highlight" />
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-emerald-950 mb-4">
+            <ArrowDownUp className="h-5 w-5 text-emerald-700" />
             Transacciones
           </h2>
 
           {loadingTx ? (
-            <div className="text-center py-8 text-gray-400">Cargando historial...</div>
+            <div className="text-center py-8 text-emerald-800">Cargando historial...</div>
           ) : transactions.length === 0 ? (
-            <div className="rounded-xl border border-game-accent bg-game-secondary/50 p-6 text-center text-gray-400">
+            <div className="rounded-xl border border-emerald-200 bg-white/80 p-6 text-center text-emerald-800">
               Sin transacciones.
             </div>
           ) : (
@@ -170,11 +170,11 @@ export function WalletDetailPage() {
               {transactions.map((tx) => (
                 <div
                   key={tx.id}
-                  className="flex items-center justify-between rounded-lg border border-game-accent bg-game-secondary/50 px-4 py-3"
+                  className="flex items-center justify-between rounded-lg border border-emerald-200 bg-white/80 px-4 py-3"
                 >
                   <div>
-                    <p className="text-sm font-semibold text-white capitalize">{tx.type}</p>
-                    <p className="text-xs text-gray-500 font-mono">
+                    <p className="text-sm font-semibold text-emerald-950 capitalize">{tx.type}</p>
+                    <p className="text-xs text-emerald-800 font-mono">
                       {shortenAddress(tx.sourceAccount)}
                     </p>
                   </div>
@@ -182,7 +182,7 @@ export function WalletDetailPage() {
                     href={`https://stellar.expert/explorer/testnet/tx/${tx.hash}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-game-gold transition"
+                    className="text-emerald-800 hover:text-emerald-700 transition"
                     title="Ver en Stellar Expert"
                   >
                     <ExternalLink className="h-4 w-4" />

@@ -1,0 +1,208 @@
+.deone-wallet {
+  --ink: #073e32;
+  --forest: #075e47;
+  --mint: #d9f3cb;
+  --paper: #f8fbef;
+  --lime: #b8e746;
+  width: 100%;
+  min-height: 100dvh;
+  color: var(--ink);
+  background: radial-gradient(ellipse at top left, #c8f4d8, transparent 42%), #f5f8eb;
+}
+
+.deone-shell {
+  width: min(100%, 50rem);
+  margin: auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  display: grid;
+  gap: 1.1rem;
+}
+
+.deone-header, .deone-balance, .deone-list-heading, .deone-wallet-row,
+.deone-wallet-link, .deone-level {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.deone-brand {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.35rem;
+  height: 3.35rem;
+  flex: none;
+  border-radius: 1.05rem;
+  background: linear-gradient(145deg, #13a76e, #075440);
+  color: white;
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.deone-brand i {
+  position: absolute;
+  width: .85rem;
+  height: .65rem;
+  left: .65rem;
+  bottom: .75rem;
+  border-radius: 70% 0;
+  background: var(--lime);
+}
+
+.deone-greeting, .deone-amount, .deone-wallet-link { min-width: 0; flex: 1; }
+.deone-greeting h1 { font-size: clamp(1.35rem, 4vw, 2rem); font-weight: 850; line-height: 1.13; overflow-wrap: anywhere; }
+.deone-greeting p { color: #42665a; font-size: .9rem; }
+
+.deone-icon {
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--mint);
+}
+
+.deone-balance {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 1.15rem;
+  border-radius: 1.65rem;
+  color: white;
+  background: linear-gradient(130deg, #078c60, #075540 74%);
+  box-shadow: 0 8px 22px #08584226;
+}
+
+.deone-balance::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: -3.5rem;
+  bottom: -6rem;
+  width: 14rem;
+  height: 10rem;
+  border: 1.1rem solid #40d78a;
+  border-radius: 50%;
+  background: var(--lime);
+  transform: rotate(-20deg);
+}
+
+.deone-balance .deone-icon { align-self: start; color: white; background: #ffffff29; }
+.deone-balance-icon { display: grid; place-items: center; width: 3.35rem; height: 3.35rem; flex: none; border-radius: 1rem; color: var(--forest); background: var(--mint); }
+.deone-amount p { font-weight: 650; font-size: .9rem; }
+.deone-amount strong { display: block; font-size: clamp(1.35rem, 4.8vw, 2.9rem); font-weight: 850; line-height: 1.18; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.deone-amount small, .deone-amount span { font-size: .82rem; }
+
+.deone-scene {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(21rem, 62vw, 33rem);
+  overflow: hidden;
+  border-radius: 2rem;
+  background: #cdefaa;
+  box-shadow: inset 0 0 0 1px #07544020;
+}
+.deone-art, .deone-art img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.deone-art img { object-fit: cover; object-position: center 48%; }
+.deone-scene--baby .deone-art img { object-position: 47% center; }
+.deone-art:focus-visible { outline-offset: -5px !important; }
+.deone-level, .deone-progress, .deone-reaction { position: absolute; pointer-events: none; }
+.deone-level {
+  top: 1rem;
+  left: 1rem;
+  gap: .45rem;
+  border-radius: 3rem;
+  padding: .5rem .85rem;
+  color: white;
+  background: var(--forest);
+  font-weight: 850;
+  box-shadow: 0 4px 10px #063d3540;
+}
+.deone-level svg { color: #ffcf45; }
+
+.deone-progress {
+  right: .9rem;
+  bottom: .9rem;
+  display: grid;
+  gap: .28rem;
+  min-width: min(10.5rem, 58%);
+  padding: .65rem .8rem;
+  border-radius: 1rem;
+  background: var(--paper);
+  box-shadow: 0 5px 14px #0c4c3633;
+  font-size: .82rem;
+}
+.deone-progress progress { width: 100%; height: .58rem; border: 0; border-radius: 1rem; overflow: hidden; background: #d4ebce; }
+.deone-progress progress::-webkit-progress-bar { background: #d4ebce; }
+.deone-progress progress::-webkit-progress-value { border-radius: inherit; background: #149562; }
+.deone-progress progress::-moz-progress-bar { background: #149562; }
+
+.deone-reaction {
+  display: grid;
+  place-items: center;
+  left: .85rem;
+  bottom: .9rem;
+  width: 4.15rem;
+  height: 4.15rem;
+  border-radius: 1.15rem;
+  background: #fcfffa;
+  box-shadow: 0 4px 12px #0c4c3633;
+}
+.deito-sprite { display: block; width: 83%; max-width: 4.1rem; background-repeat: no-repeat; border-radius: .45rem; }
+
+.deone-list { display: grid; gap: .7rem; scroll-margin: 1rem; }
+.deone-list-heading { justify-content: space-between; flex-wrap: wrap; }
+.deone-list-heading h2 { font-size: 1.25rem; font-weight: 850; }
+.deone-primary, .deone-fund, .deone-empty { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; border-radius: .85rem; padding: .55rem .75rem; font-size: .85rem; font-weight: 750; }
+.deone-primary { color: white; background: var(--forest); }
+.deone-fund, .deone-empty { color: var(--ink); background: var(--mint); }
+.deone-wallet-row { padding: .72rem; background: #fcfff6; border: 1px solid #d6e8ce; border-radius: 1rem; }
+.deone-wallet-link strong, .deone-wallet-link small { display: block; overflow-wrap: anywhere; }
+.deone-wallet-link strong { font-size: .9rem; }
+.deone-wallet-link small { color: #45675d; font-size: .76rem; }
+.deone-wallet-link svg { flex-shrink: 0; }
+.deone-wallet-row svg:last-child { margin-left: auto; }
+.deone-feedback { padding: .65rem .9rem; border-radius: .8rem; background: #daf2d8; }
+.deone-error { background: #fee7d8; color: #822f20; }
+
+.deone-nav {
+  position: sticky;
+  z-index: 2;
+  bottom: max(.5rem, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: .65rem;
+  padding: .48rem .8rem;
+  border: 1px solid #dfecd4;
+  border-radius: 2rem;
+  background: #fcfff6;
+  box-shadow: 0 5px 20px #164b3b27;
+}
+.deone-nav a { display: grid; justify-items: center; gap: .15rem; font-size: .8rem; font-weight: 720; }
+.deone-nav .deone-nav-qr { display: grid; place-items: center; width: 3.6rem; height: 3.6rem; margin-top: -.85rem; border: 3px solid #edffe5; border-radius: 50%; color: white; background: #078361; box-shadow: 0 3px 8px #164b3b40; }
+.deone-wallet button:disabled { opacity: .65; cursor: wait; }
+.deone-wallet :focus-visible { outline: 2px solid #058658; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .deone-art img { animation: deone-skin 420ms ease-out both; }
+  .deone-reaction { animation: deone-skin 240ms ease-out both; }
+  @keyframes deone-skin {
+    from { opacity: .3; transform: scale(.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .deone-scene[data-action="greet"] .deone-art img,
+  .deone-scene[data-action="receive"] .deone-art img,
+  .deone-scene[data-action="success"] .deone-art img {
+    animation: deone-cheer 650ms ease-in-out both;
+  }
+  @keyframes deone-cheer {
+    0%, 100% { transform: scale(1); }
+    40% { transform: scale(1.045) translateY(-.2rem); }
+  }
+}
